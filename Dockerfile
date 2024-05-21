@@ -11,6 +11,5 @@ COPY src /usr/src/app/
 
 EXPOSE 3000
 
-ENTRYPOINT ["python3"]
-
-CMD ["-m", "swagger_server"]
+ENTRYPOINT [ "gunicorn" ]
+CMD ["--workers", "4", "--bind", "0.0.0.0:3000", "swagger_server.__main__:app"]
