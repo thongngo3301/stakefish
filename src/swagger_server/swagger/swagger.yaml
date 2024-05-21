@@ -72,7 +72,7 @@ paths:
       tags:
       - tools
       summary: Simple IP validation
-      description: Simple IP valication
+      description: Simple IP validation
       operationId: validate_ip
       requestBody:
         description: IP to validate
@@ -96,6 +96,53 @@ paths:
                 $ref: '#/components/schemas/utils.HTTPError'
       x-codegen-request-body-name: request
       x-openapi-router-controller: swagger_server.controllers.tools_controller
+  /metrics:
+    get:
+      tags:
+      - monitoring
+      summary: Metrics endpoint
+      description: Prometheus metrics endpoint
+      operationId: get_metrics
+      responses:
+        "200":
+          description: Metrics data
+          content:
+            text/plain:
+              schema:
+                type: string
+                x-content-type: text/plain
+      x-openapi-router-controller: swagger_server.controllers.monitoring_controller
+  /health:
+    get:
+      tags:
+      - monitoring
+      summary: Health check
+      description: Health check endpoint
+      operationId: get_health
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/inline_response_200'
+      x-openapi-router-controller: swagger_server.controllers.monitoring_controller
+  /:
+    get:
+      tags:
+      - info
+      summary: Root endpoint
+      description: "Root endpoint providing version, current date, and Kubernetes\
+        \ status"
+      operationId: get_root
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/inline_response_200_1'
+      x-openapi-router-controller: swagger_server.controllers.info_controller
 components:
   schemas:
     handler.ValidateIPRequest:
@@ -142,5 +189,25 @@ components:
       properties:
         message:
           type: string
+    inline_response_200:
+      type: object
+      properties:
+        status:
+          type: string
+      example:
+        status: status
+    inline_response_200_1:
+      type: object
+      properties:
+        version:
+          type: string
+        date:
+          type: integer
+        kubernetes:
+          type: boolean
+      example:
+        date: 0
+        kubernetes: true
+        version: version
 x-original-swagger-version: "2.0"
 

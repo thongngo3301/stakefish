@@ -24,7 +24,7 @@ def lookup_domain(domain):  # noqa: E501
 def validate_ip(body):  # noqa: E501
     """Simple IP validation
 
-    Simple IP valication # noqa: E501
+    Simple IP validation # noqa: E501
 
     :param body: IP to validate
     :type body: dict | bytes
