@@ -47,7 +47,7 @@ jobs:
         version: v3.5.4
 
     - name: Package Helm chart
-      run: helm package .
+      run: helm package helm
 
     - name: Push Helm chart to GitHub Pages
       if: github.ref == 'refs/heads/main'
@@ -61,4 +61,4 @@ jobs:
         git commit -m 'Add new Helm chart'
         git push
       env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
