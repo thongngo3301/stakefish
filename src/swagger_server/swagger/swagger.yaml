@@ -1,0 +1,146 @@
+openapi: 3.0.1
+info:
+  title: Interview challenge
+  description: Implementation for the interview challenge
+  contact: {}
+  version: "1.0"
+servers:
+- url: /v1
+paths:
+  /history:
+    get:
+      tags:
+      - history
+      summary: List queries
+      description: List queries
+      operationId: queries_history
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/model.Query'
+                x-content-type: application/json
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/utils.HTTPError'
+      x-openapi-router-controller: swagger_server.controllers.history_controller
+  /tools/lookup:
+    get:
+      tags:
+      - tools
+      summary: Lookup domain
+      description: Lookup domain and return all IPv4 addresses
+      operationId: lookup_domain
+      parameters:
+      - name: domain
+        in: query
+        description: Domain name
+        required: true
+        style: form
+        explode: true
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/model.Query'
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/utils.HTTPError'
+        "404":
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/utils.HTTPError'
+      x-openapi-router-controller: swagger_server.controllers.tools_controller
+  /tools/validate:
+    post:
+      tags:
+      - tools
+      summary: Simple IP validation
+      description: Simple IP valication
+      operationId: validate_ip
+      requestBody:
+        description: IP to validate
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/handler.ValidateIPRequest'
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/handler.ValidateIPResponse'
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/utils.HTTPError'
+      x-codegen-request-body-name: request
+      x-openapi-router-controller: swagger_server.controllers.tools_controller
+components:
+  schemas:
+    handler.ValidateIPRequest:
+      type: object
+      properties:
+        ip:
+          type: string
+    handler.ValidateIPResponse:
+      type: object
+      properties:
+        status:
+          type: boolean
+      example:
+        status: true
+    model.Address:
+      type: object
+      properties:
+        ip:
+          type: string
+      example:
+        ip: ip
+    model.Query:
+      type: object
+      properties:
+        addresses:
+          type: array
+          items:
+            $ref: '#/components/schemas/model.Address'
+        client_ip:
+          type: string
+        created_at:
+          type: integer
+        domain:
+          type: string
+      example:
+        addresses:
+        - ip: ip
+        - ip: ip
+        domain: domain
+        created_at: 0
+        client_ip: client_ip
+    utils.HTTPError:
+      type: object
+      properties:
+        message:
+          type: string
+x-original-swagger-version: "2.0"
+
