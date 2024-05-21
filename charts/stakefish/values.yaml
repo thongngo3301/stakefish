@@ -1,9 +1,9 @@
 replicaCount: 1
 
 image:
-  repository: my-app
+  repository: thongngo3301/stakefish
   tag: latest
-  pullPolicy: IfNotPresent
+  pullPolicy: Always
 
 service:
   type: ClusterIP
