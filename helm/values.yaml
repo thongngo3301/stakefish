@@ -17,8 +17,3 @@ prometheus:
   image: prom/prometheus
   port: 9090
   scrapePath: /metrics
-
-resources: {}
-nodeSelector: {}
-tolerations: []
-affinity: []
