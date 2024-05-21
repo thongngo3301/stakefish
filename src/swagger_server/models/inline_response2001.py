@@ -14,29 +14,29 @@ class InlineResponse2001(Model):
 
     Do not edit the class manually.
     """
-    def __init__(self, version: str=None, _date: int=None, kubernetes: bool=None):  # noqa: E501
+    def __init__(self, version: str=None, date: int=None, kubernetes: bool=None):  # noqa: E501
         """InlineResponse2001 - a model defined in Swagger
 
         :param version: The version of this InlineResponse2001.  # noqa: E501
         :type version: str
-        :param _date: The _date of this InlineResponse2001.  # noqa: E501
-        :type _date: int
+        :param date: The date of this InlineResponse2001.  # noqa: E501
+        :type date: int
         :param kubernetes: The kubernetes of this InlineResponse2001.  # noqa: E501
         :type kubernetes: bool
         """
         self.swagger_types = {
             'version': str,
-            '_date': int,
+            'date': int,
             'kubernetes': bool
         }
 
         self.attribute_map = {
             'version': 'version',
-            '_date': 'date',
+            'date': 'date',
             'kubernetes': 'kubernetes'
         }
         self._version = version
-        self.__date = _date
+        self._date = date
         self._kubernetes = kubernetes
 
     @classmethod
@@ -72,25 +72,25 @@ class InlineResponse2001(Model):
         self._version = version
 
     @property
-    def _date(self) -> int:
-        """Gets the _date of this InlineResponse2001.
+    def date(self) -> int:
+        """Gets the date of this InlineResponse2001.
 
 
-        :return: The _date of this InlineResponse2001.
+        :return: The date of this InlineResponse2001.
         :rtype: int
         """
-        return self.__date
+        return self._date
 
-    @_date.setter
-    def _date(self, _date: int):
-        """Sets the _date of this InlineResponse2001.
+    @date.setter
+    def date(self, date: int):
+        """Sets the date of this InlineResponse2001.
 
 
-        :param _date: The _date of this InlineResponse2001.
-        :type _date: int
+        :param date: The date of this InlineResponse2001.
+        :type date: int
         """
 
-        self.__date = _date
+        self._date = date
 
     @property
     def kubernetes(self) -> bool:
