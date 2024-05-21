@@ -9,6 +9,8 @@ servers:
 paths:
   /history:
     get:
+      servers:
+      - url: /v1
       tags:
       - history
       summary: List queries
@@ -33,6 +35,8 @@ paths:
       x-openapi-router-controller: swagger_server.controllers.history_controller
   /tools/lookup:
     get:
+      servers:
+      - url: /v1
       tags:
       - tools
       summary: Lookup domain
@@ -69,6 +73,8 @@ paths:
       x-openapi-router-controller: swagger_server.controllers.tools_controller
   /tools/validate:
     post:
+      servers:
+      - url: /v1
       tags:
       - tools
       summary: Simple IP validation

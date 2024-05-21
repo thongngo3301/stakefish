@@ -1,5 +1,5 @@
 import datetime
-
+import re
 import six
 import typing
 from swagger_server import type_util
@@ -140,3 +140,19 @@ def _deserialize_dict(data, boxed_type):
     """
     return {k: _deserialize(v, boxed_type)
             for k, v in six.iteritems(data)}
+
+def is_valid_ipv4(ip):
+    """
+    Validate an IPv4 address.
+
+    :param ip: IP address as a string
+    :type ip: str
+    :return: True if the IP address is a valid IPv4 address, False otherwise
+    :rtype: bool
+    """
+    pattern = r'^(\d{1,3}\.){3}\d{1,3}$'
+    if re.match(pattern, ip):
+        parts = ip.split('.')
+        if all(0 <= int(part) < 256 for part in parts):
+            return True
+    return False
