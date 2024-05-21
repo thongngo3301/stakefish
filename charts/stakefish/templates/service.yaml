@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: {{ include "my-app.fullname" . }}
+  name: {{ include "stakefish.fullname" . }}
 spec:
   type: {{ .Values.service.type }}
   ports:
@@ -10,36 +10,4 @@ spec:
       protocol: TCP
       name: http
   selector:
-    app: {{ include "my-app.name" . }}
-
----
-
-apiVersion: v1
-kind: Service
-metadata:
-  name: {{ include "my-app.redisFullname" . }}
-spec:
-  type: ClusterIP
-  ports:
-    - port: {{ .Values.redis.port }}
-      targetPort: {{ .Values.redis.port }}
-      protocol: TCP
-      name: redis
-  selector:
-    app: {{ include "my-app.redisFullname" . }}
-
----
-
-apiVersion: v1
-kind: Service
-metadata:
-  name: {{ include "my-app.prometheusFullname" . }}
-spec:
-  type: ClusterIP
-  ports:
-    - port: {{ .Values.prometheus.port }}
-      targetPort: {{ .Values.prometheus.port }}
-      protocol: TCP
-      name: prometheus
-  selector:
-    app: {{ include "my-app.prometheusFullname" . }}
+    app: {{ include "stakefish.name" . }}

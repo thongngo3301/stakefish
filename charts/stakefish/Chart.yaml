@@ -1,5 +1,12 @@
 apiVersion: v2
-name: my-app
-description: A Helm chart for deploying my-app
+name: stakefish
+description: A Helm chart for deploying stakefish
 version: 0.1.0
 appVersion: "1.0"
+dependencies:
+  - name: prometheus
+    version: 25.21.0
+    repository: https://prometheus-community.github.io/helm-charts
+  - name: redis
+    version: 19.4.0
+    repository: https://charts.bitnami.com/bitnami

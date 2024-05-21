@@ -1,80 +1,28 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ include "my-app.fullname" . }}
+  name: {{ include "stakefish.fullname" . }}
 spec:
   replicas: {{ .Values.replicaCount }}
   selector:
     matchLabels:
-      app: {{ include "my-app.name" . }}
+      app: {{ include "stakefish.name" . }}
   template:
     metadata:
       labels:
-        app: {{ include "my-app.name" . }}
+        app: {{ include "stakefish.name" . }}
     spec:
       containers:
         - name: {{ .Chart.Name }}
-          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          image: "{{ .Values.app.image }}:{{ .Values.app.tag }}"
           ports:
             - containerPort: {{ .Values.service.port }}
-          env:
-            - name: REDIS_HOST
-              value: {{ include "my-app.redisFullname" . }}
-            - name: REDIS_PORT
-              value: "{{ .Values.redis.port }}"
-            - name: REDIS_DB
-              value: "0"
+          envFrom:
+          - secretRef:
+              name: {{ .Values.app.secretName }}
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
       nodeSelector:
-        {{- toYaml .Values.nodeSelector | nindent 8 }}
-      tolerations:
         {{- toYaml .Values.tolerations | nindent 8 }}
       affinity:
         {{- toYaml .Values.affinity | nindent 8 }}
-
----
-
-apiVersion: apps/v1
-kind: Deployment
-metadata:
-  name: {{ include "my-app.redisFullname" . }}
-spec:
-  replicas: 1
-  selector:
-    matchLabels:
-      app: {{ include "my-app.redisFullname" . }}
-  template:
-    metadata:
-      labels:
-        app: {{ include "my-app.redisFullname" . }}
-    spec:
-      containers:
-        - name: redis
-          image: {{ .Values.redis.image }}
-          ports:
-            - containerPort: {{ .Values.redis.port }}
-
----
-
-apiVersion: apps/v1
-kind: Deployment
-metadata:
-  name: {{ include "my-app.prometheusFullname" . }}
-spec:
-  replicas: 1
-  selector:
-    matchLabels:
-      app: {{ include "my-app.prometheusFullname" . }}
-  template:
-    metadata:
-      labels:
-        app: {{ include "my-app.prometheusFullname" . }}
-    spec:
-      containers:
-        - name: prometheus
-          image: {{ .Values.prometheus.image }}
-          args:
-            - '--config.file=/etc/prometheus/prometheus.yml'
-          ports:
-            - containerPort: {{ .Values.prometheus.port }}
