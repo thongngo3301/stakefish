@@ -27,8 +27,6 @@ def get_root():  # noqa: E501
         kubernetes=kubernetes
     )
 
-    print(type(response_data.to_dict()))
-    
     # Create the response with the response code 200
     response = make_response(jsonify(response_data.to_dict()), 200)
     return response

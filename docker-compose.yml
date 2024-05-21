@@ -3,7 +3,7 @@ version: '3.8'
 services:
   app:
     build:
-      context: src/
+      context: .
       dockerfile: Dockerfile
     ports:
       - "3000:3000"
@@ -12,6 +12,7 @@ services:
     environment:
       - REDIS_HOST=redis
       - REDIS_PORT=6379
+      - REDIS_DB=0
 
   redis:
     image: redis:alpine
@@ -28,7 +29,3 @@ services:
       - app
     command:
       - '--config.file=/etc/prometheus/prometheus.yml'
-
-networks:
-  default:
-    name: my_network

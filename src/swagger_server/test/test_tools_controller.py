@@ -28,7 +28,6 @@ class TestToolsController(BaseTestCase):
             '/tools/lookup',
             method='GET',
             query_string=query_string)
-        print(response.data.decode('utf-8'))
         self.assert200(response)
 
     def test_validate_ip_valid(self):

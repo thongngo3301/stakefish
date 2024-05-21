@@ -32,7 +32,7 @@ def lookup_domain(domain):  # noqa: E501
 
     try:
         # Perform DNS lookup to get IPv4 addresses
-        ipv4_addresses = socket.gethostbyname_ex(domain)[2]
+        ipv4_addresses = socket.gethostbyname_ex(str(domain))[2]
         ipv4_addresses = [ip for ip in ipv4_addresses if '.' in ip]
 
         if not ipv4_addresses:
@@ -52,7 +52,7 @@ def lookup_domain(domain):  # noqa: E501
         )
 
         # Log the query
-        log_query(domain, addresses.to_dict())
+        log_query(query)
 
         response_obj = make_response(jsonify(query.to_dict()), 200)
         return response_obj
@@ -75,7 +75,12 @@ def log_query(query):
     """
 
     # Convert log query to JSON string
-    log_entry_json = json.dumps(query.to_dict())
+    log_entry = {
+        'domain': query.domain,
+        'addresses': ', '.join([x.ip for x in query.addresses]),
+        'created_at': query.created_at
+    }
+    log_entry_json = json.dumps(log_entry)
 
     # Push the log entry to a Redis list
     redis_client.lpush('query_logs', log_entry_json)
